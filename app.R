@@ -65,150 +65,23 @@ ui <- dashboardPage(
     tabItems(
       tabItem(tabName = "intro",
               fluidPage(
-                h2("INTRODUCTION TO FORECASTING"),
+                h2("INTRODUCTION TO ECONOMIC FORECASTING"),
                 p("Forecasting is an essential tool in economics and business, used to predict future trends based on past data. In this app, you'll learn about various forecasting techniques and their applications."),
+                p("Forecasting involves predicting future values based on historical data. Techniques range from simple methods like moving averages to more complex models like ARIMA."),
                 h3("WHAT IS ECONOMIC FORECASTING?"),
                 p("Economic forecasting involves predicting future economic conditions based on the analysis of historical data and economic indicators. This can include forecasting GDP growth, inflation rates, unemployment, and other macroeconomic variables."),
-                h3("WHY FORECASTING IS USEFUL?"),
+                h3("WHY IS FORECASTING USEFUL?"),
                 p("Forecasting is useful because it helps businesses, governments, and individuals make informed decisions about the future. By anticipating future economic conditions, they can plan and allocate resources more effectively."),
                 h3("COMMON TYPES OF FORECASTING PROBLEMS"),
                 h4("Macroeconomic Forecast Problems"),
-                tags$ul(
-                  tags$li("Scope: Predicts aggregate measures of economic activity at international, national, regional, or state levels."),
-                  tags$li("Focus: Includes GDP, unemployment, interest rates, consumer spending, business investment, homebuilding, exports, imports, and government spending."),
-                  tags$li("Influence: Predictions by 'blue chip' business economists capture the attention of media, businesses, government, and the general public daily."),
-                  tags$li("Day-to-Day Decisions: Businesses and individuals use forecasts for operating and long-term planning."),
-                  tags$ul(
-                    tags$li("Example: Projected interest rate rises may lead homeowners to refinance mortgages and businesses to issue new bonds.")
-                  ),
-                  tags$li("Accuracy and Consequences:"),
-                  tags$ul(
-                    tags$li("Accurate Predictions: Enable significant cost savings or revenue gains."),
-                    tags$li("Inaccurate Predictions: Result in higher costs and lost marketing opportunities.")
-                  ),
-                  tags$li("Factors Influencing Forecast Accuracy:"),
-                  tags$ul(
-                    tags$li("Controllable and Uncontrollable Factors: Major influence in macroeconomic forecasting.")
-                  ),
-                  tags$li("Example: Interest Rate Forecasting"),
-                  tags$ul(
-                    tags$li("Demand for Credit:"),
-                    tags$ul(
-                      tags$li("Rises with business expansions or consumer credit increases."),
-                      tags$li("Results in higher short-term interest rates.")
-                    ),
-                    tags$li("Supply of Credit:"),
-                    tags$ul(
-                      tags$li("Increases with Federal Reserve actions to boost the money supply or consumer savings."),
-                      tags$li("Results in lower short-term interest rates.")
-                    )
-                  ),
-                  tags$li("Challenges in Interest Rate Forecasting:"),
-                  tags$ul(
-                    tags$li("Interrelated Factors: Business decisions, such as building inventories, depend on overall economic activity and interest-rate expectations."),
-                    tags$li("Unstable Environment: Economic conditions are interconnected in unpredictable ways.")
-                  ),
-                  tags$li("Policy Decision Uncertainty:"),
-                  tags$ul(
-                    tags$li("Federal Reserve Policy: Decisions are confidential and disclosed months later."),
-                    tags$li("'Fed watching' is a common practice among business economists to anticipate policy impacts.")
-                  ),
-                  img(src = "im4.jpg", alt = "Business Cycle Image", style = "width:100%; height:auto;"),
-                ),
-                
+                p("Macroeconomic forecasting involves predicting aggregate measures of economic activity at the international, national, regional, or state level. This includes GDP, inflation, and unemployment rates."),
                 h4("Microeconomic Forecast Problems"),
-                tags$ul(
-                  tags$li("Scope: Microeconomic forecasting involves the prediction of disaggregate economic data at the industry, firm, plant, or product level."),
-                  tags$li("Public Attention: Unlike macroeconomic forecasts, microeconomic forecasts often go unnoticed by the general public."),
-                  tags$li("Examples:"),
-                  tags$ul(
-                    tags$li("Scrap prices for aluminum"),
-                    tags$li("Demand for new cars"),
-                    tags$li("Production costs for Crest toothpaste")
-                  ),
-                  tags$li("Relationship Example: Used car prices and new car demand are closely related due to their strong substitute good relationship."),
-                  tags$li("Forecasting Accuracy:"),
-                  tags$ul(
-                    tags$li("Trained and experienced analysts often find it easier to accurately forecast microeconomic trends compared to macroeconomic trends."),
-                    tags$li("Microeconomic forecasts abstract from the multitude of interrelationships that determine the macroeconomy.")
-                  ),
-                  tags$li("Specialized Knowledge:"),
-                  tags$ul(
-                    tags$li("New car prices"),
-                    tags$li("Car import tariffs"),
-                    tags$li("Car loan rates"),
-                    tags$li("Used car prices")
-                  ),
-                  tags$li("Challenges:"),
-                  tags$ul(
-                    tags$li("Despite being more straightforward, precise microeconomic forecasting is still challenging."),
-                    tags$li("Example: In August 1999, forecasts for new car and light truck sales for the 2000 model year were too conservative, predicting 15.7 million units, while the actual sales were 17.2 million units."),
-                    tags$li("Post-9/11 Forecasting: Forecasts for 2001 and 2002 sales were disrupted by the September 11, 2001, terrorist attacks, showing the unpredictability in forecasting even for experts.")
-                  )
-                ),
-                
+                p("Microeconomic forecasting focuses on predicting economic data at the industry, firm, plant, or product level. This can include forecasting sales, costs, and market demand."),
+                img(src = "im4.jpg", alt = "Business Cycle Image", style = "width:100%; height:auto;"),
                 h4("Problem of Changing Expectations"),
-                tags$ul(
-                  tags$li("Scope: Changing expectations affect both macroeconomic and microeconomic forecasting."),
-                  tags$li("Self-Fulfilling Prophecy:"),
-                  tags$ul(
-                    tags$li("Optimistic expectations lead to inventory buildup, contributing to economic growth."),
-                    tags$li("Pessimistic expectations lead to cutbacks in orders and inventory, contributing to economic downturn.")
-                  ),
-                  tags$li("Macroeconomic Environment: The sum of investment and spending decisions by businesses, government, and the public."),
-                  tags$li("Potential Bias:"),
-                  tags$ul(
-                    tags$li("Expectations can create an optimistic bias in government-reported statistics."),
-                    tags$li("Government economists may be criticized for overly optimistic forecasts.")
-                  ),
-                  tags$li("Impact on Decision-Making:"),
-                  tags$ul(
-                    tags$li("Government or politically motivated economists may seek to manage economic expectations to influence business leader decisions."),
-                    tags$li("Business leaders' decisions based on optimistic forecasts can help create economic growth.")
-                  ),
-                  tags$li("Importance for Managers:"),
-                  tags$ul(
-                    tags$li("Managers must appreciate the link between economic expectations and realizations."),
-                    tags$li("Be wary of potential forecast bias in economic statistics.")
-                  )
-                ),
-                
+                p("Expectations of future economic conditions can change rapidly, affecting both macroeconomic and microeconomic forecasts. These changing expectations can create a self-fulfilling prophecy, where anticipated economic conditions lead to actions that cause those conditions."),
                 h4("Data Quality Problems"),
-                tags$ul(
-                  tags$li("Data Quality: Accurate forecasts require current, complete, and error-free data."),
-                  tags$li("Importance of Input Data:"),
-                  tags$ul(
-                    tags$li("Inputting incoming orders is often better than shipments due to potential production delays."),
-                    tags$li("Order fulfillment timing can be affected by transit delays beyond the control of the shipping firm.")
-                  ),
-                  tags$li("Quantity of Data:"),
-                  tags$ul(
-                    tags$li("More data generally leads to better forecasts."),
-                    tags$li("Advanced forecasting software can function with as few as five data points, but such forecasts are often simplistic."),
-                    tags$li("Collecting large samples of data can be expensive and tedious, but it improves forecast accuracy.")
-                  ),
-                  tags$li("Seasonal Data:"),
-                  tags$ul(
-                    tags$li("Extended time series data are important for accurate seasonal forecasts."),
-                    tags$li("Most forecasting software requires a minimum of 2 years of monthly data (24 observations) for seasonally adjusted forecasts."),
-                    tags$li("Typically, 5 years of monthly data (60 observations) are necessary for high accuracy.")
-                  ),
-                  tags$li("Periodic Data: Forecast software can work with data of any periodicity (hourly, daily, weekly, monthly, or annual)."),
-                  tags$li("Ultimate Consideration: The quantity and quality of data must be sufficient to generate useful forecasts."),
-                  tags$li("Government Data Issues:"),
-                  tags$ul(
-                    tags$li("Government-supplied data are often tardy and inaccurate."),
-                    tags$li("GDP estimates are revised multiple times, causing uncertainty and forecast errors."),
-                    tags$li("Extreme variation in official estimates of key economic statistics is a primary cause of forecast error among business economists.")
-                  ),
-                  tags$li("Imperfect Nature of Forecasts:"),
-                  tags$ul(
-                    tags$li("Forecasts are never perfect and rely heavily on historical data and relationships."),
-                    tags$li("Future events are seldom accounted for in popular forecasting techniques."),
-                    tags$li("Managers must combine traditional forecast methods with personal insight and knowledge of future events to create the most useful forecasts.")
-                  )
-                )
-                
+                p("Accurate forecasts require high-quality data that is current, complete, and free from error. Poor data quality can lead to inaccurate forecasts, which can have significant negative impacts on decision-making.")
               )),
       tabItem(tabName = "qualitative",
               fluidPage(
@@ -799,6 +672,7 @@ ui <- dashboardPage(
                 tags$ul(
                   tags$li(tags$b("Introduction:"), " Provides an overview of economic forecasting."),
                   tags$li(tags$b("Types of Forecasting:"), " Describes different forecasting techniques such as Qualitative Analysis, Trend Analysis, Exponential Smoothing, and Econometric Models."),
+                  tags$li(tags$b("Special Understanding:"), " Includes descriptions on special terms to understand Economic Forecasting."),
                   tags$li(tags$b("Judging Forecast Reliability:"), " Offers insights into evaluating the reliability of different forecasting models."),
                   tags$li(tags$b("Choosing the Best Technique:"), " Helps users decide on the most appropriate forecasting method for their data."),
                   tags$li(tags$b("Regression:"), " Includes tabs for GDP Analysis and Multiple Regression Analysis."),
@@ -856,7 +730,7 @@ ui <- dashboardPage(
                 ),
                 
                 h3("Contact and Support"),
-                p("If you encounter any issues or have any questions, please feel free to reach out at okeshakarunarathne@gmail.com"),
+                p("If you encounter any issues or have any questions, please feel free to reach out at okeshakarunarathne@gmail.com."),
                 
                 p("We hope you find this app useful for your economic forecasting needs. Happy forecasting!")
               )
