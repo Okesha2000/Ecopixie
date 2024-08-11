@@ -24,13 +24,13 @@ To run this app locally, follow these steps:
 
 2.**Install the required R packages:**
 
-     ```r
+     ```bash
      install.packages(c("shiny", "ggplot2", "DT", "plotly", "shinydashboard"))
      ```
 
 3.**Run the app:**
 
-     ```r
+     ```bash
      library(shiny)
      runApp("path/to/EcoPixie")
      ```
