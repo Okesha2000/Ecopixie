@@ -540,8 +540,6 @@ ui <- dashboardPage(
                            actionButton("runMultipleRegression", "Run Multiple Regression"),
                            h3("Multiple Regression Summary"),
                            verbatimTextOutput("multipleRegressionSummary"),
-                           plotlyOutput("demandPlot"),
-                           h3("Forecasted Demand for New Markets"),
                            DTOutput("forecastTable")
                          )
                 ),
@@ -566,6 +564,13 @@ ui <- dashboardPage(
                            actionButton("runUserMultipleRegression", "Run Model"),
                            h3("Multiple Regression Model"),
                            verbatimTextOutput("userMultipleRegression"),
+                           
+                           # New input for uploading forecast CSV
+                           h3("Upload Forecast Values"),
+                           fileInput("fileForecast", "Upload CSV File with Forecast Values",
+                                     accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
+                           actionButton("calculateUserForecastMulti", "Calculate Forecast"),
+                           
                            h3("Forecast Values"),
                            DTOutput("userForecastTableMulti"),
                            plotlyOutput("userForecastPlotMulti"),
@@ -979,10 +984,11 @@ server <- function(input, output, session) {
       if (input$modelType == "Annual Compounding") {
         log_ts <- log10(time_series)
         fit <- lm(log_ts ~ time_index)
-        fitted_values <- exp(predict(fit, newdata = data.frame(time_index = time_index)))
+        fitted_values <- 10^(predict(fit, newdata = data.frame(time_index = time_index)))
         future_time_index <- seq_along(log_ts) + length(log_ts)
-        forecast_values <- exp(predict(fit, newdata = data.frame(time_index = future_time_index)))
-      } else {
+        forecast_values <- 10^(predict(fit, newdata = data.frame(time_index = future_time_index)))
+      } 
+      if (input$modelType == "Continuous Compounding") {
         log_ts <- log(time_series)
         fit <- lm(log_ts ~ time_index)
         fitted_values <- exp(predict(fit, newdata = data.frame(time_index = time_index)))
@@ -1113,14 +1119,6 @@ server <- function(input, output, session) {
     output$newMarketsTable <- renderDT({
       datatable(new_markets, options = list(pageLength = 5))
     })
-    
-    output$demandPlot <- renderPlotly({
-      ggplotly(ggplot(new_markets, aes(x = 1:nrow(new_markets), y = Forecast_Demand)) +
-                 geom_point() +
-                 geom_smooth(method = "lm") +
-                 ggtitle("Forecasted Demand for New Markets") +
-                 theme_minimal())
-    })
   })
   
   # User Data Analysis for Multiple Regression
@@ -1143,6 +1141,12 @@ server <- function(input, output, session) {
     checkboxGroupInput("selectedIndepVarsUser", "Select Independent Variables:", choices = colnames(df), selected = colnames(df)[2:ncol(df)])
   })
   
+  # Allow users to upload a CSV file with forecast values
+  forecastInputData <- reactive({
+    req(input$fileForecast)
+    read.csv(input$fileForecast$datapath, header = TRUE)
+  })
+  
   observeEvent(input$runUserMultipleRegression, {
     req(userMultiData())
     df <- userMultiData()
@@ -1157,44 +1161,49 @@ server <- function(input, output, session) {
       summary(user_multi_model)
     })
     
-    # Forecast values
-    max_time <- nrow(df)
-    forecast_horizon <- seq_len(input$hUserMulti)
-    forecast_time <- max_time + forecast_horizon
-    
-    new_data <- data.frame(Time = forecast_time)
-    new_data[, independentVars] <- NA # Placeholder for user input
-    
-    output$userForecastTableMulti <- renderDT({
-      datatable(new_data, editable = TRUE, options = list(pageLength = 5))
-    })
-    
-    proxy <- dataTableProxy("userForecastTableMulti")
-    
-    observeEvent(input$userForecastTableMulti_cell_edit, {
-      info <- input$userForecastTableMulti_cell_edit
-      str(info)
-      i <- info$row
-      j <- info$col
-      v <- info$value
-      
-      new_data[i, j] <<- DT::coerceValue(v, new_data[i, j])
-      replaceData(proxy, new_data, resetPaging = FALSE)
-    })
-    
     observeEvent(input$calculateUserForecastMulti, {
-      req(!is.na(new_data[, -1]))
+      req(forecastInputData())
+      forecast_data <- forecastInputData()
       
-      new_data$Forecast_Value <- predict(user_multi_model, newdata = new_data)
+      # Ensure the types in forecast_data match the types in df
+      for (var in independentVars) {
+        if (is.factor(df[[var]])) {
+          forecast_data[[var]] <- as.factor(forecast_data[[var]])
+          levels(forecast_data[[var]]) <- levels(df[[var]]) # Copy levels from original data
+        } else {
+          forecast_data[[var]] <- as.numeric(forecast_data[[var]])
+        }
+      }
       
-      output$userForecastPlotMulti <- renderPlotly({
-        ggplotly(ggplot(new_data, aes(x = Time)) +
-                   geom_line(aes(y = Forecast_Value, color = "Forecast")) +
-                   ggtitle("Forecast Values") +
-                   theme_minimal())
+      tryCatch({
+        forecast_data$Forecast_Value <- predict(user_multi_model, newdata = forecast_data)
+        
+        output$userForecastTableMulti <- renderDT({
+          datatable(forecast_data, options = list(pageLength = 5))
+        })
+        
+        output$userForecastPlotMulti <- renderPlotly({
+          ggplotly(
+            ggplot(forecast_data, aes(x = 1:nrow(forecast_data), y = Forecast_Value)) +
+              geom_line(color = "blue") +
+              geom_point(color = "red") +
+              ggtitle("Forecasted Values") +
+              xlab("Time") +
+              ylab("Forecast") +
+              theme_minimal()
+          )
+        })
+        
+        showNotification("Forecast calculated and plotted successfully.", type = "message")
+        
+      }, error = function(e) {
+        showNotification(paste("Error in forecasting:", e$message), type = "error")
       })
     })
   })
+  
+  
+  
   
   # Exercises
   output$constantGrowthTable <- renderTable({
